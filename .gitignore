@@ -1,0 +1,19 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# Forge dev run
+run/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS / misc
+*.log
+.DS_Store

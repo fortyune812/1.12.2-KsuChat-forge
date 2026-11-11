@@ -1,0 +1,59 @@
+// KsuChat - Minecraft 1.12.2 Forge 14.23.5.2860
+// Requires Java 8 and Gradle 7.x (ForgeGradle 2.3 fork).
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = 'forge'
+            url = 'https://maven.minecraftforge.net'
+        }
+    }
+    dependencies {
+        classpath 'com.anatawa12.forge:ForgeGradle:2.3-1.0.8'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = mod_version
+group = mod_group_id
+archivesBaseName = mod_id
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+minecraft {
+    version = "${minecraft_version}-${forge_version}"
+    runDir = 'run'
+    mappings = mappings_version
+    // makeObfSourceJar = false
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Все зависимости (Gson, Guava, log4j) уже идут в составе Minecraft/Forge.
+}
+
+processResources {
+    // Перезапускаем задачу при смене версий
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft_version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft_version
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
